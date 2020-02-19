@@ -1,4 +1,4 @@
-package cn.edu.nju.candleflame.rssSpider;
+package cn.edu.nju.candleflame.rss_spider;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

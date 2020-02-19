@@ -1,10 +1,12 @@
-package cn.edu.nju.candleflame.rssSpider.proxy;
+package cn.edu.nju.candleflame.rss_spider.proxy;
 
-import cn.edu.nju.candleflame.rssSpider.util.HttpUtil;
+import cn.edu.nju.candleflame.rss_spider.util.HttpUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @Component
 public class IpProxy {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(IpProxy.class);
 	private ConcurrentLinkedQueue<IpProxyPair> ipSet = new ConcurrentLinkedQueue<>();
 
 	@Value("${proxy.ip}")
@@ -65,7 +68,7 @@ public class IpProxy {
 		ipSet.clear();
 		ipSet.addAll(ipList);
 
-		System.out.println(ipSet.stream().map(IpProxyPair::toString).collect(Collectors.joining(" ")));
+		LOGGER.info(ipSet.stream().map(IpProxyPair::toString).collect(Collectors.joining(" ")));
 	}
 
 	public static void main(String[] args) {

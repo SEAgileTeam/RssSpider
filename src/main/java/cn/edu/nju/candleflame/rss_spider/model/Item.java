@@ -1,4 +1,4 @@
-package cn.edu.nju.candleflame.rssSpider.model;
+package cn.edu.nju.candleflame.rss_spider.model;
 
 public class Item {
 

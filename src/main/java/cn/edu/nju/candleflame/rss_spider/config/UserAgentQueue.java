@@ -1,4 +1,4 @@
-package cn.edu.nju.candleflame.rssSpider.config;
+package cn.edu.nju.candleflame.rss_spider.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

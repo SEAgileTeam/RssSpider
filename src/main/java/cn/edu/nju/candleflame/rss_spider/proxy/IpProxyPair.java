@@ -1,4 +1,4 @@
-package cn.edu.nju.candleflame.rssSpider.proxy;
+package cn.edu.nju.candleflame.rss_spider.proxy;
 
 /**
  * 报错代理的对应关系

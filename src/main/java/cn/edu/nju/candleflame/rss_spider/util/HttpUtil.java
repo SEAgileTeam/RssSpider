@@ -1,18 +1,16 @@
-package cn.edu.nju.candleflame.rssSpider.util;
+package cn.edu.nju.candleflame.rss_spider.util;
 
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class HttpUtil {
 
@@ -30,11 +28,8 @@ public class HttpUtil {
 			// 判断返回状态是否为200
 			if (response.getStatusLine().getStatusCode() == 200) {
 				//请求体内容
-				String content = EntityUtils.toString(response.getEntity(), charset);
-				return content;
+				return EntityUtils.toString(response.getEntity(), charset);
 			}
-		} catch (ClientProtocolException e) {
-			LOGGER.error(e.getLocalizedMessage());
 		} catch (IOException e) {
 			LOGGER.error(e.getLocalizedMessage());
 		} finally {
@@ -62,7 +57,7 @@ public class HttpUtil {
 			socket.connect(new InetSocketAddress(hostname, port), timeout);
 			isConnected = socket.isConnected();
 		} catch (IOException e) {
-			isConnected = false;
+			LOGGER.error(e.getLocalizedMessage());
 		}finally{
 			try {
 				socket.close();
@@ -71,5 +66,8 @@ public class HttpUtil {
 			}
 		}
 		return isConnected;
+	}
+
+	private HttpUtil() {
 	}
 }
