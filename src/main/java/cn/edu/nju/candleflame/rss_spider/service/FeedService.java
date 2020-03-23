@@ -1,6 +1,7 @@
 package cn.edu.nju.candleflame.rss_spider.service;
 
 import java.util.List;
+import java.util.Set;
 
 public interface FeedService {
 	/**
@@ -14,5 +15,5 @@ public interface FeedService {
 	 * 获取目前配置的所有的
 	 * @return
 	 */
-	List<String> getAllFeedNames();
+	Set<String> getAllFeedNames();
 }
