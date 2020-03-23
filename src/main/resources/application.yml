@@ -19,3 +19,4 @@ custom-analysis:
   mappers:
     - name: hello
       analysisClass: cn.edu.nju.candleflame.rss_spider.feed.FeedChanger
+      frequency: 2
