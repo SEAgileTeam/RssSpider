@@ -14,3 +14,8 @@ user-agent:
 
 proxy:
   ip: https://www.kuaidaili.com/free/inha/
+
+custom-analysis:
+  mappers:
+    - name: hello
+      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.FeedChanger
