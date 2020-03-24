@@ -9,7 +9,6 @@ import cn.edu.nju.candleflame.rss_spider.service.FeedService;
 import cn.edu.nju.candleflame.rss_spider.util.SpringBeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,10 +23,13 @@ public class FeedServiceImpl implements FeedService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FeedServiceImpl.class);
 	private static Map<String,FeedChanger> beanMap = new HashMap<>();
 
-	@Autowired
-	private CustomAnalysisMapper customAnalysisMapper;
-	@Autowired
-	private IFeedHistoryDao feedHistoryDao;
+	private final CustomAnalysisMapper customAnalysisMapper;
+	private final IFeedHistoryDao feedHistoryDao;
+
+	public FeedServiceImpl(CustomAnalysisMapper customAnalysisMapper, IFeedHistoryDao feedHistoryDao) {
+		this.customAnalysisMapper = customAnalysisMapper;
+		this.feedHistoryDao = feedHistoryDao;
+	}
 
 	@Override
 	public String getFeedContent(String feedName) {

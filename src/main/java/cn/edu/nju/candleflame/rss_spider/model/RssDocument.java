@@ -29,12 +29,52 @@ public class RssDocument {
 		this.contents = new ArrayList<>();
 	}
 
+	/**
+	 * 添加 item 条目
+	 * @param item
+	 */
 	public void appendItem(Item item){
 		contents.add(item);
 	}
 
+	/**
+	 * 批量添加 item 条目
+	 * @param items
+	 */
 	public void appendAllItems(Collection<Item> items){
 		contents.addAll(items);
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ArrayList<Item> getContents() {
+		return contents;
+	}
+
+	public void setContents(ArrayList<Item> contents) {
+		this.contents = contents;
 	}
 
 	@Override
