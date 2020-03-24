@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface IFeedRefreshhHistoryDao extends JpaRepository<FeedRefreshEntity,Long> {
+public interface IFeedRefreshHistoryDao extends JpaRepository<FeedRefreshEntity,Long> {
 
 	List<FeedRefreshEntity> findAll();
 
