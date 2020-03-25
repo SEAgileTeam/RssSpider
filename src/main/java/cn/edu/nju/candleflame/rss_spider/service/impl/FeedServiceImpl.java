@@ -3,8 +3,6 @@ package cn.edu.nju.candleflame.rss_spider.service.impl;
 import cn.edu.nju.candleflame.rss_spider.aop.RunningLog;
 import cn.edu.nju.candleflame.rss_spider.config.CustomAnalysisMapper;
 import cn.edu.nju.candleflame.rss_spider.config.Mapper;
-import cn.edu.nju.candleflame.rss_spider.dao.IFeedHistoryDao;
-import cn.edu.nju.candleflame.rss_spider.entity.FeedHistoryEntity;
 import cn.edu.nju.candleflame.rss_spider.feed.FeedChanger;
 import cn.edu.nju.candleflame.rss_spider.service.FeedService;
 import cn.edu.nju.candleflame.rss_spider.util.SpringBeanUtils;
@@ -23,11 +21,10 @@ public class FeedServiceImpl implements FeedService {
 	private static Map<String,FeedChanger> beanMap = new HashMap<>();
 
 	private final CustomAnalysisMapper customAnalysisMapper;
-	private final IFeedHistoryDao feedHistoryDao;
 
-	public FeedServiceImpl(CustomAnalysisMapper customAnalysisMapper, IFeedHistoryDao feedHistoryDao) {
+
+	public FeedServiceImpl(CustomAnalysisMapper customAnalysisMapper) {
 		this.customAnalysisMapper = customAnalysisMapper;
-		this.feedHistoryDao = feedHistoryDao;
 	}
 
 	@Override
@@ -36,12 +33,13 @@ public class FeedServiceImpl implements FeedService {
 			getAllFeedNames();
 		}
 		if(beanMap.containsKey(feedName)){
-			FeedHistoryEntity historyEntity = feedHistoryDao.getFirstByNameEqualsOrderByCreateTimeDesc(feedName);
-			if (historyEntity == null){
-				return "";
-			}else{
-				return historyEntity.getContent();
-			}
+//			FeedHistoryEntity historyEntity = feedHistoryDao.getFirstByNameEqualsOrderByCreateTimeDesc(feedName);
+//			if (historyEntity == null){
+//				return "";
+//			}else{
+//				return historyEntity.getContent();
+//			}
+			return null;
 		}else{
 			return "";
 		}

@@ -1,23 +1,18 @@
 package cn.edu.nju.candleflame.rss_spider.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import java.sql.Timestamp;
 
-@Entity(name = "feed_refresh")
+
 public class FeedRefreshEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	private Long id;
-	@Column
+
 	private String name;
-	@Column
+
 	private Timestamp freshtime;
-	@Column
+
 	private Timestamp createtime;
 
 	public FeedRefreshEntity() {

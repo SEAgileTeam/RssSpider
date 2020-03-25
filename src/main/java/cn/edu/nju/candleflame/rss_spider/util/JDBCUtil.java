@@ -1,7 +1,13 @@
 package cn.edu.nju.candleflame.rss_spider.util;
 
 
+import cn.edu.nju.candleflame.rss_spider.aop.RunningLog;
+import cn.edu.nju.candleflame.rss_spider.config.JDBCConfig;
+import cn.edu.nju.candleflame.rss_spider.schedule.FlushFeedExecutor;
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -9,25 +15,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-/**
- * Created by Huanfeng.Xu on 2017-07-09.
- */
+@Component
 public class JDBCUtil {
 
-	private static Properties properties;
-	static {
-		properties = new Properties();
+	private static final RunningLog LOGGER = RunningLog.getLog(JDBCUtil.class);
+
+	private final JDBCConfig jdbcConfig;
+
+	public JDBCUtil(JDBCConfig jdbcConfig) throws Exception {
+		this.jdbcConfig = jdbcConfig;
+		if(jdbcConfig == null||
+				StringUtils.isEmpty(jdbcConfig.getDriver())||
+			StringUtils.isEmpty(jdbcConfig.getPassword())||
+			StringUtils.isEmpty(jdbcConfig.getUserName())||
+			StringUtils.isEmpty(jdbcConfig.getUrl())){
+			throw new Exception("jdbc config error");
+		}
+
 		try {
-			properties.setProperty("jdbc.url","jdbc:mysql://127.0.0.1:3306/spider?useSSL=false");
-			properties.setProperty("jdbc.user","root");
-			properties.setProperty("jdbc.password","123456");
-			System.out.println("load config file finish");
-
-//			Class.forName(properties.getProperty("jdbc.driver"));
-
 			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			System.out.println("jdbc class not found " + e.getMessage());
+		}catch (ClassNotFoundException e){
+			LOGGER.error("jdbc class not found " , e.getMessage());
 		}
 	}
 
@@ -35,16 +43,16 @@ public class JDBCUtil {
 	 * 获得数据库连接Connection
 	 * @return Connection 数据库连接
 	 */
-	private static Connection getConnection(){
+	private Connection getConnection(){
 
 		Connection connection = null;
 		try {
 			connection =  DriverManager.getConnection(
-					properties.getProperty("jdbc.url"),
-					properties.getProperty("jdbc.user"),
-					properties.getProperty("jdbc.password"));
+					jdbcConfig.getUrl(),
+					jdbcConfig.getUserName(),
+					jdbcConfig.getPassword());
 		} catch (SQLException e) {
-			System.out.println("cannot get connection " + e.getMessage());
+			LOGGER.error("cannot get connection " , e.getMessage());
 		}
 		return connection;
 	}
@@ -57,7 +65,7 @@ public class JDBCUtil {
 	 * @return
 	 * @throws SQLException
 	 */
-	private static boolean settingParams(PreparedStatement preparedStatement, Object[] param) throws SQLException {
+	private boolean settingParams(PreparedStatement preparedStatement, Object[] param) throws SQLException {
 
 		if (param != null && param.length > 0){
 			ParameterMetaData parameterMetaData = preparedStatement.getParameterMetaData();
@@ -81,7 +89,7 @@ public class JDBCUtil {
 	 * @param param 对应的参数列表
 	 * @return
 	 */
-	public static boolean update(String sql, Object[] param){
+	public boolean update(String sql, Object[] param){
 
 		PreparedStatement preparedStatement = null;
 		Connection connection = getConnection();
@@ -114,7 +122,7 @@ public class JDBCUtil {
 	 * @param <T>  对象的类型
 	 * @return bean
 	 */
-	public static <T> T queryForBean(String sql, Object[] param, Class<T> clazz){
+	public <T> T queryForBean(String sql, Object[] param, Class<T> clazz){
 
 		Connection connection = getConnection();
 		PreparedStatement preparedStatement = null;
@@ -148,14 +156,8 @@ public class JDBCUtil {
 				return null;
 			}
 
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (InstantiationException | InvocationTargetException | SQLException | IllegalAccessException e) {
+			LOGGER.error(e.getLocalizedMessage());
 		} finally {
 			close(connection, preparedStatement, resultSet);
 		}
@@ -170,7 +172,7 @@ public class JDBCUtil {
 	 * @param <T>  对象的类型
 	 * @return list
 	 */
-	public static <T> List<T> queryForList(String sql, Object[] param, Class<T> clazz){
+	public <T> List<T> queryForList(String sql, Object[] param, Class<T> clazz){
 
 		Connection connection = getConnection();
 		PreparedStatement preparedStatement = null;
@@ -179,7 +181,7 @@ public class JDBCUtil {
 
 			preparedStatement = connection.prepareStatement(sql);
 
-			if (settingParams(preparedStatement, param) == false){
+			if (!settingParams(preparedStatement, param)){
 				return null;
 			}
 
@@ -204,14 +206,8 @@ public class JDBCUtil {
 			}
 			return results;
 
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (InstantiationException | IllegalAccessException | SQLException | InvocationTargetException e) {
+			LOGGER.error(e.getLocalizedMessage());
 		} finally {
 			close(connection, preparedStatement, resultSet);
 		}
@@ -222,7 +218,7 @@ public class JDBCUtil {
 	 * 关闭connection
 	 * @param connection 连接池对象
 	 */
-	private static void close(Connection connection){
+	private void close(Connection connection){
 		if (connection != null){
 			try {
 				connection.close();
@@ -241,7 +237,7 @@ public class JDBCUtil {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getLocalizedMessage());
 			}
 		}
 	}
@@ -250,12 +246,12 @@ public class JDBCUtil {
 	 * 关闭ResultSet
 	 * @param resultSet
 	 */
-	private static void close(ResultSet resultSet){
+	private void close(ResultSet resultSet){
 		if (resultSet != null){
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.error(e.getLocalizedMessage());
 			}
 		}
 	}
@@ -265,7 +261,7 @@ public class JDBCUtil {
 	 * @param connection
 	 * @param statement
 	 */
-	private static void close(Connection connection, Statement statement){
+	private void close(Connection connection, Statement statement){
 		close(connection);
 		close(statement);
 	}
@@ -276,7 +272,7 @@ public class JDBCUtil {
 	 * @param statement
 	 * @param resultSet
 	 */
-	private static void close(Connection connection, Statement statement, ResultSet resultSet){
+	private void close(Connection connection, Statement statement, ResultSet resultSet){
 		close(connection, statement);
 		close(resultSet);
 	}
