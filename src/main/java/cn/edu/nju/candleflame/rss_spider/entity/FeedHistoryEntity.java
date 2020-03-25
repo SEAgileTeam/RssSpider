@@ -17,7 +17,7 @@ public class FeedHistoryEntity {
 	@Column(length = 10240)
 	private String content;
 	@Column
-	private Timestamp createTime;
+	private Timestamp createtime;
 
 	public FeedHistoryEntity() {
 	}
@@ -25,7 +25,7 @@ public class FeedHistoryEntity {
 	public FeedHistoryEntity(String name,String content) {
 		this.name = name;
 		this.content = content;
-		this.createTime = new Timestamp(System.currentTimeMillis());
+		this.createtime = new Timestamp(System.currentTimeMillis());
 	}
 
 	public Long getId() {
@@ -52,11 +52,21 @@ public class FeedHistoryEntity {
 		this.content = content;
 	}
 
-	public Timestamp getCreateTime() {
-		return createTime;
+	public Timestamp getCreatetime() {
+		return createtime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
+	public void setCreatetime(Timestamp createTime) {
+		this.createtime = createTime;
+	}
+
+	@Override
+	public String toString() {
+		return "FeedHistoryEntity{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", content='" + content + '\'' +
+				", createTime=" + createtime +
+				'}';
 	}
 }

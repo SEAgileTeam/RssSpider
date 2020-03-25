@@ -78,7 +78,6 @@ public class FeedServiceImpl implements FeedService {
 		// 判断自定义的类是否存在
 		Class customClass;
 		try {
-
 			customClass = this.getClass().getClassLoader().loadClass(mapper.getAnalysisClass());
 		} catch (ClassNotFoundException e) {
 			LOGGER.error("{} is not found", mapper.getAnalysisClass());

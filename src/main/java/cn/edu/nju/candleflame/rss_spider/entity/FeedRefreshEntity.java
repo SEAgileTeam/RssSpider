@@ -16,17 +16,17 @@ public class FeedRefreshEntity {
 	@Column
 	private String name;
 	@Column
-	private Timestamp freshTime;
+	private Timestamp freshtime;
 	@Column
-	private Timestamp createTime;
+	private Timestamp createtime;
 
 	public FeedRefreshEntity() {
 	}
 
 	public FeedRefreshEntity(String name) {
 		this.name = name;
-		this.freshTime = null;
-		this.createTime = new Timestamp(System.currentTimeMillis());
+		this.freshtime = null;
+		this.createtime = new Timestamp(System.currentTimeMillis());
 	}
 
 	public Long getId() {
@@ -45,19 +45,29 @@ public class FeedRefreshEntity {
 		this.name = name;
 	}
 
-	public Timestamp getFreshTime() {
-		return freshTime;
+	public Timestamp getFreshtime() {
+		return freshtime;
 	}
 
-	public void setFreshTime(Timestamp freshTime) {
-		this.freshTime = freshTime;
+	public void setFreshtime(Timestamp freshTime) {
+		this.freshtime = freshTime;
 	}
 
-	public Timestamp getCreateTime() {
-		return createTime;
+	public Timestamp getCreatetime() {
+		return createtime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
+	public void setCreatetime(Timestamp createTime) {
+		this.createtime = createTime;
+	}
+
+	@Override
+	public String toString() {
+		return "FeedRefreshEntity{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", freshTime=" + freshtime +
+				", createTime=" + createtime +
+				'}';
 	}
 }
