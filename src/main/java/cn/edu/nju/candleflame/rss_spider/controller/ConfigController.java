@@ -1,5 +1,6 @@
 package cn.edu.nju.candleflame.rss_spider.controller;
 
+import cn.edu.nju.candleflame.rss_spider.aop.OperationLog;
 import cn.edu.nju.candleflame.rss_spider.config.CustomAnalysisMapper;
 import cn.edu.nju.candleflame.rss_spider.config.Mapper;
 import cn.edu.nju.candleflame.rss_spider.config.UserAgentQueue;
@@ -19,11 +20,13 @@ public class ConfigController {
 		this.customAnalysisMapper = customAnalysisMapper;
 	}
 
+	@OperationLog("get user agent")
 	@GetMapping("/test1")
 	public String test1(){
 		return userAgentQueue.getNextUserAgent();
 	}
 
+	@OperationLog("get user feeds")
 	@GetMapping("/test2")
 	public String test2(){
 		List<Mapper> mappers = customAnalysisMapper.getMappers();

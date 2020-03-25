@@ -1,8 +1,7 @@
 package cn.edu.nju.candleflame.rss_spider.schedule;
 
+import cn.edu.nju.candleflame.rss_spider.aop.RunningLog;
 import cn.edu.nju.candleflame.rss_spider.service.FeedService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +11,7 @@ import java.util.concurrent.Executors;
 @Component
 public class FlushFeedExecutor {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FlushFeedExecutor.class);
+	private static final RunningLog LOGGER = RunningLog.getLog(FlushFeedExecutor.class);
 
 	private ExecutorService excutor = null;
 
@@ -23,8 +22,7 @@ public class FlushFeedExecutor {
 	}
 
 	@PostConstruct
-	public void init(){
-		feedService.getAllFeedNames();
+	public void init() {
 		Thread thread = new Thread(new FlushFeedThread(feedService));
 		thread.setName("feed_flush_thread");
 

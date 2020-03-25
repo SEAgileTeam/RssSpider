@@ -1,5 +1,6 @@
 package cn.edu.nju.candleflame.rss_spider.service.impl;
 
+import cn.edu.nju.candleflame.rss_spider.aop.RunningLog;
 import cn.edu.nju.candleflame.rss_spider.config.CustomAnalysisMapper;
 import cn.edu.nju.candleflame.rss_spider.config.Mapper;
 import cn.edu.nju.candleflame.rss_spider.dao.IFeedHistoryDao;
@@ -7,8 +8,6 @@ import cn.edu.nju.candleflame.rss_spider.entity.FeedHistoryEntity;
 import cn.edu.nju.candleflame.rss_spider.feed.FeedChanger;
 import cn.edu.nju.candleflame.rss_spider.service.FeedService;
 import cn.edu.nju.candleflame.rss_spider.util.SpringBeanUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,7 +19,7 @@ import java.util.Set;
 @Service
 public class FeedServiceImpl implements FeedService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FeedServiceImpl.class);
+	private static final RunningLog LOGGER = RunningLog.getLog(FeedServiceImpl.class);
 	private static Map<String,FeedChanger> beanMap = new HashMap<>();
 
 	private final CustomAnalysisMapper customAnalysisMapper;
