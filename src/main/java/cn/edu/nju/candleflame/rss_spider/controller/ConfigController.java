@@ -53,6 +53,7 @@ public class ConfigController {
 		System.out.println(integer.count);
 		return integer.count+"";
 	}
+
 	public static class Count{
 		private Long count;
 
@@ -64,4 +65,5 @@ public class ConfigController {
 			this.count = count;
 		}
 	}
+
 }

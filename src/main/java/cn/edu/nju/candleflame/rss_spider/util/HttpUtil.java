@@ -1,5 +1,6 @@
 package cn.edu.nju.candleflame.rss_spider.util;
 
+import cn.edu.nju.candleflame.rss_spider.aop.RunningLog;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -14,7 +15,7 @@ import java.net.Socket;
 
 public class HttpUtil {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtil.class);
+	private static final RunningLog LOGGER = RunningLog.getLog(HttpUtil.class);
 
 	public static String get(String url, String charset){
 		// 创建Httpclient对象
