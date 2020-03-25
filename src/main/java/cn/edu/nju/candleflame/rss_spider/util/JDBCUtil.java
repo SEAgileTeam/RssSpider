@@ -3,17 +3,21 @@ package cn.edu.nju.candleflame.rss_spider.util;
 
 import cn.edu.nju.candleflame.rss_spider.aop.RunningLog;
 import cn.edu.nju.candleflame.rss_spider.config.JDBCConfig;
-import cn.edu.nju.candleflame.rss_spider.schedule.FlushFeedExecutor;
 import org.apache.commons.beanutils.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ParameterMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Component
 public class JDBCUtil {

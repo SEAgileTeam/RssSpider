@@ -43,4 +43,14 @@ public class JDBCConfig {
 	public void setDriver(String driver) {
 		this.driver = driver;
 	}
+
+	@Override
+	public String toString() {
+		return "JDBCConfig{" +
+				"url='" + url + '\'' +
+				", userName='" + userName + '\'' +
+				", password='" + password + '\'' +
+				", driver='" + driver + '\'' +
+				'}';
+	}
 }
