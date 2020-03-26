@@ -26,3 +26,14 @@ jdbc:
   username: root
   password: 123456
   driver: com.mysql.jdbc.Driver
+okhttp:
+  enabled: true
+  connect:
+    timeout: 360000
+    keepAliveDuration: 5
+    maxIdle: 200
+    retry: false
+  read:
+    timeout: 360000
+  write:
+    timeout: 360000
