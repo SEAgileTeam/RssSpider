@@ -18,7 +18,7 @@ proxy:
 custom-analysis:
   mappers:
     - name: hello
-      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.FeedChanger
+      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.DemoChanger
       frequency: 2
 
 jdbc:
