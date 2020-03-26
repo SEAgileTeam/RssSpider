@@ -7,7 +7,6 @@ import cn.edu.nju.candleflame.rss_spider.dao.FeedHistoryDao;
 import cn.edu.nju.candleflame.rss_spider.entity.FeedHistoryEntity;
 import cn.edu.nju.candleflame.rss_spider.feed.FeedChanger;
 import cn.edu.nju.candleflame.rss_spider.service.FeedService;
-import cn.edu.nju.candleflame.rss_spider.util.JDBCUtil;
 import cn.edu.nju.candleflame.rss_spider.util.SpringBeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
