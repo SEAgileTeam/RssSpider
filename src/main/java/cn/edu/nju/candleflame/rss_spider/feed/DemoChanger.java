@@ -2,6 +2,8 @@ package cn.edu.nju.candleflame.rss_spider.feed;
 
 import cn.edu.nju.candleflame.rss_spider.model.Item;
 import cn.edu.nju.candleflame.rss_spider.model.RssDocument;
+import cn.edu.nju.candleflame.rss_spider.service.FetchHtmlService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -12,6 +14,10 @@ import java.util.List;
 
 @Component
 public class DemoChanger implements FeedChanger {
+
+	@Autowired
+	private FetchHtmlService fetchHtmlService;
+
 	@Override
 	public RssDocument analysis(String html) {
 		Item item =  new Item("title","link","content");
@@ -26,9 +32,10 @@ public class DemoChanger implements FeedChanger {
 		rssDocument.appendItem(item);
 		rssDocument.appendAllItems(itemList);
 
+		fetchHtmlService.get("www.baidu.com", null);
 		return rssDocument;
 
-		}
+	}
 
 
 
