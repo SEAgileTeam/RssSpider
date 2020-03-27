@@ -91,7 +91,7 @@ public class FlushFeedThread implements Runnable{
 						}
 					}
 
-					Thread.sleep(60*1000);
+//					Thread.sleep(60*1000);
 				}catch (Throwable t){
 					LOGGER.error(t.getLocalizedMessage());
 					try {
