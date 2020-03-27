@@ -1,5 +1,7 @@
 package cn.edu.nju.candleflame.rss_spider.config;
 
+import cn.edu.nju.candleflame.rss_spider.proxy.IpProxy;
+import cn.edu.nju.candleflame.rss_spider.proxy.IpProxyPair;
 import com.alibaba.fastjson.JSON;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -10,6 +12,8 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -17,10 +21,14 @@ public class OkHttpUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(OkHttpUtil.class);
 
-    private final OkHttpClient okHttpClient;
+    private final OkHttpClient.Builder builder;
+    private IpProxy ipProxy;
+    private UserAgentQueue userAgentQueue;
 
-    public OkHttpUtil(OkHttpClient okHttpClient){
-        this.okHttpClient = okHttpClient;
+    public OkHttpUtil(OkHttpClient.Builder builder, IpProxy ipProxy, UserAgentQueue userAgentQueue){
+        this.builder = builder;
+        this.ipProxy = ipProxy;
+        this.userAgentQueue = userAgentQueue;
     }
     /**
      * 根据map获取get请求参数
@@ -56,6 +64,11 @@ public class OkHttpUtil {
         Response response = null;
         long curr = System.currentTimeMillis();
         try {
+            IpProxyPair nextIp = ipProxy.getNextIp();
+            logger.info("ip:{} port:{}" , nextIp.getIp(), nextIp.getPort());
+            OkHttpClient okHttpClient = builder
+//                    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(nextIp.getIp(), nextIp.getPort())))
+                    .build();
             response = okHttpClient.newCall(request).execute();
             int status = response.code();
             if (response.isSuccessful()) {
@@ -65,7 +78,7 @@ public class OkHttpUtil {
             }
             logger.info("cost {}, reponse is: {}, {}", System.currentTimeMillis() - curr, status, JSON.toJSONString(response));
         } catch (Exception e) {
-
+            e.printStackTrace();
             logger.error("cost {},okhttp3 put error >> ex = {}", System.currentTimeMillis() - curr, e.getLocalizedMessage());
         } finally {
             if (response != null) {
@@ -86,6 +99,7 @@ public class OkHttpUtil {
         StringBuffer sb = getQueryString(url, queries);
         Request request = new Request.Builder()
                 .url(sb.toString())
+                .header("User-Agent", userAgentQueue.getNextUserAgent())
                 .build();
         return execNewCall(request);
     }
@@ -108,6 +122,7 @@ public class OkHttpUtil {
         Request request = new Request.Builder()
                 .url(url)
                 .post(builder.build())
+                .header("User-Agent", userAgentQueue.getNextUserAgent())
                 .build();
         return execNewCall(request);
     }
@@ -125,6 +140,7 @@ public class OkHttpUtil {
         Request request = new Request.Builder()
                 .url(url)
                 .post(requestBody)
+                .header("User-Agent", userAgentQueue.getNextUserAgent())
                 .build();
         return execNewCall(request);
     }
@@ -140,6 +156,7 @@ public class OkHttpUtil {
         Request request = new Request.Builder()
                 .url(url)
                 .post(requestBody)
+                .header("User-Agent", userAgentQueue.getNextUserAgent())
                 .build();
         return execNewCall(request);
     }

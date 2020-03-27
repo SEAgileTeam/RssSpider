@@ -6,8 +6,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -38,14 +36,14 @@ public class HttpUtil {
 				try {
 					response.close();
 				} catch (IOException e) {
-					LOGGER.error(e.getLocalizedMessage());
+					LOGGER.warn(e.getLocalizedMessage());
 				}
 			}
 			//相当于关闭浏览器
 			try {
 				httpclient.close();
 			} catch (IOException e) {
-				LOGGER.error(e.getLocalizedMessage());
+				LOGGER.warn(e.getLocalizedMessage());
 			}
 		}
 		return "";
@@ -58,12 +56,12 @@ public class HttpUtil {
 			socket.connect(new InetSocketAddress(hostname, port), timeout);
 			isConnected = socket.isConnected();
 		} catch (IOException e) {
-			LOGGER.error(e.getLocalizedMessage());
+			LOGGER.warn(e.getLocalizedMessage());
 		}finally{
 			try {
 				socket.close();
 			} catch (IOException e) {
-				LOGGER.error(e.getLocalizedMessage());
+				LOGGER.warn(e.getLocalizedMessage());
 			}
 		}
 		return isConnected;

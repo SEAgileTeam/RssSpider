@@ -1,7 +1,9 @@
 package cn.edu.nju.candleflame.rss_spider.config;
 
+import cn.edu.nju.candleflame.rss_spider.proxy.IpProxy;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -77,17 +79,20 @@ public class OkHttpConfig {
         return new ConnectionPool(maxIdle, keepAliveDuration, TimeUnit.MINUTES);
     }
 
+    @Autowired
+    private IpProxy ipProxy;
+    @Autowired
+    private UserAgentQueue userAgentQueue;
     @Bean("okHttpUtil")
     public OkHttpUtil okHttpUtil() {
-        OkHttpClient client = new OkHttpClient.Builder()
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .sslSocketFactory(sslSocketFactory(), x509TrustManager())
                 .retryOnConnectionFailure(retry)//是否开启缓存
                 .connectionPool(pool())//连接池
                 .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
                 .readTimeout(readTimeout, TimeUnit.MILLISECONDS)
-                .writeTimeout(writeTimeout, TimeUnit.MILLISECONDS)
-                .build();
+                .writeTimeout(writeTimeout, TimeUnit.MILLISECONDS);
 
-        return new OkHttpUtil(client);
+        return new OkHttpUtil(builder,ipProxy,userAgentQueue);
     }
 }

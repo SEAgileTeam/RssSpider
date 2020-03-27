@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Component
 public class IpProxy {
 
 	private static final RunningLog LOGGER = RunningLog.getLog(IpProxy.class);
@@ -23,8 +22,13 @@ public class IpProxy {
 
 	@Value("${proxy.ip}")
 	private String proxyIp = "https://www.kuaidaili.com/free/inha/";
+	private final ProxyReady proxyReady;
 
 	private static final String REGEX_IP_ADDR = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
+
+	public IpProxy(ProxyReady proxyReady) {
+		this.proxyReady = proxyReady;
+	}
 
 	public synchronized void fetchIp(){
 
@@ -67,12 +71,29 @@ public class IpProxy {
 		ipSet.clear();
 		ipSet.addAll(ipList);
 
+		proxyReady.setReady(true);
+
 		LOGGER.info(ipSet.stream().map(IpProxyPair::toString).collect(Collectors.joining(" ")));
 	}
 
-	public static void main(String[] args) {
-		IpProxy ipProxy = new IpProxy();
-		ipProxy.fetchIp();
+	public IpProxyPair getNextIp(){
+		IpProxyPair pair = ipSet.poll();
+		if (pair != null) {
+			boolean canConnect = HttpUtil.telnet(pair.getIp(), pair.getPort(), 500);
+			if (canConnect){
+				ipSet.add(pair);
+			}else if (ipSet.size() <1){
+				proxyReady.setReady(false);
+				fetchIp();
+				proxyReady.setReady(true);
+			}
+		}
+		return pair;
 	}
+
+//	public static void main(String[] args) {
+//		IpProxy ipProxy = new IpProxy();
+//		ipProxy.fetchIp();
+//	}
 
 }
