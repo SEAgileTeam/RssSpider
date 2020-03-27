@@ -1,8 +1,11 @@
 package cn.edu.nju.candleflame.rss_spider.schedule;
 
+import org.springframework.stereotype.Component;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Component
 public class ExecThreadPool {
 
 	private ExecutorService executorService ;

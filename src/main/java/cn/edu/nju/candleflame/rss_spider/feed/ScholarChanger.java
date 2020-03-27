@@ -19,7 +19,7 @@ public class ScholarChanger implements FeedChanger {
 	private FetchHtmlService fetchHtmlService;
 
 	@Override
-	public RssDocument analysis(String html) {
+	public RssDocument analysis() {
 		String base_url = "http://xueshu.baidu.com/usercenter/journal/navigation?query=&language=1&category=10,1003";
 		Elements pages = Jsoup.parse(fetchHtmlService.postJsonParams(base_url, "")).select(".res-page-number");
 		ArrayList<Item> itemList = new ArrayList<>();

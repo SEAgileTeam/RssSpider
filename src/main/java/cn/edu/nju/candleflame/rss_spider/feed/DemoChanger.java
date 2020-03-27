@@ -19,12 +19,12 @@ public class DemoChanger implements FeedChanger {
 	private FetchHtmlService fetchHtmlService;
 
 	@Override
-	public RssDocument analysis(String html) {
+	public RssDocument analysis() {
 		Item item =  new Item("title","link","content");
 		List<Item> itemList = Arrays.asList(new Item("title1","link1","content1"),
 				new Item("title2","link2","content2"));
 		String title="title";
-		String url=html;
+		String url="url";
 		String description="description";
 		RssDocument rssDocument = new RssDocument(title, url, description);
 

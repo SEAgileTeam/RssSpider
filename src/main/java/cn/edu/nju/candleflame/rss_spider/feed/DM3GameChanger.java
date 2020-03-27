@@ -19,7 +19,7 @@ public class DM3GameChanger implements FeedChanger {
 	private FetchHtmlService fetchHtmlService;
 
 	@Override
-	public RssDocument analysis(String html) {
+	public RssDocument analysis() {
 		String base_url = "https://www.3dmgame.com/original_40_";
 		int max_page_num = Integer.parseInt(Jsoup.parse(fetchHtmlService.postJsonParams(base_url, "")).select(".last a").get(0).attr("data-page")) + 1;
 		ArrayList<Item> itemList = new ArrayList<>();

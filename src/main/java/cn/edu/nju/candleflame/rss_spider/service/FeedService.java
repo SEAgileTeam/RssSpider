@@ -1,6 +1,8 @@
 package cn.edu.nju.candleflame.rss_spider.service;
 
-import java.util.List;
+import cn.edu.nju.candleflame.rss_spider.feed.FeedChanger;
+
+import java.util.Map;
 import java.util.Set;
 
 public interface FeedService {
@@ -16,4 +18,10 @@ public interface FeedService {
 	 * @return
 	 */
 	Set<String> getAllFeedNames();
+
+	/**
+	 * 获得所有的bean map
+	 * @return
+	 */
+	Map<String, FeedChanger> getBeanMap();
 }

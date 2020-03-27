@@ -18,7 +18,7 @@ public class FeedChangerTest {
 // 需要爬取商品信息的网站地址
 		String testHtml1 = "https://list.tmall.com/search_product.htm?q=" + input;
 //		RssDocument rssDocument = feedChanger.analysis(testHtml);
-		RssDocument rssDocument1 = feedChanger.analysis(testHtml1);
+		RssDocument rssDocument1 = feedChanger.analysis();
 //		System.out.println(rssDocument);
 		System.out.println(rssDocument1);
 

@@ -7,5 +7,5 @@ import cn.edu.nju.candleflame.rss_spider.model.RssDocument;
  */
 public interface FeedChanger {
 
-	RssDocument analysis(String html);
+	RssDocument analysis();
 }

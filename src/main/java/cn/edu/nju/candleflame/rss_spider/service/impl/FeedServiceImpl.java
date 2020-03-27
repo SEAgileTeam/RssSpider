@@ -20,7 +20,7 @@ import java.util.Set;
 public class FeedServiceImpl implements FeedService {
 
 	private static final RunningLog LOGGER = RunningLog.getLog(FeedServiceImpl.class);
-	private static Map<String,FeedChanger> beanMap = new HashMap<>();
+	private Map<String,FeedChanger> beanMap = new HashMap<>();
 
 	private final CustomAnalysisMapper customAnalysisMapper;
 
@@ -48,6 +48,14 @@ public class FeedServiceImpl implements FeedService {
 			return "";
 		}
 
+	}
+
+	@Override
+	public Map<String, FeedChanger> getBeanMap() {
+		if (beanMap.size() == 0){
+			getAllFeedNames();
+		}
+		return beanMap;
 	}
 
 	@Override

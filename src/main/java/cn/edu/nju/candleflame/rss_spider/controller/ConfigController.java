@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +83,18 @@ public class ConfigController {
 		}
 		List<FeedRefreshEntity> allLastViewedFeed = feedRefreshDao.getAllLastViewedFeed(allNames);
 		return JSON.toJSONString(allLastViewedFeed);
+	}
+
+	@OperationLog("insert new record")
+	@GetMapping("/test5")
+	public boolean test5(){
+		return feedRefreshDao.insert(new FeedRefreshEntity("test1"));
+	}
+
+	@OperationLog("update new record")
+	@GetMapping("/test6")
+	public boolean test6(){
+		return feedRefreshDao.updateFeed("test1", new Timestamp(System.currentTimeMillis()));
 	}
 
 }

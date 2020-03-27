@@ -24,7 +24,7 @@ import org.jsoup.nodes.Element;
 @Component
 public class TianmaoChanger implements FeedChanger {
     @Override
-    public RssDocument analysis(String url) {
+    public RssDocument analysis() {
 //		Item item =  new Item("title","link","content");
 //		List<Item> itemList = Arrays.asList(new Item("title1","link1","content1"),
 //				new Item("title2","link2","content2"));
@@ -32,6 +32,7 @@ public class TianmaoChanger implements FeedChanger {
 
         String description = "输出天猫商品需要搜索的所有商家的id和名称以及价格图片等信息";
 
+        String url = "";
 
         RssDocument rssDocument = new RssDocument(title, url, description);
 // 动态模拟请求数据

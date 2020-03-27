@@ -20,7 +20,7 @@ public class FeedRefreshEntity {
 
 	public FeedRefreshEntity(String name) {
 		this.name = name;
-		this.freshtime = null;
+		this.freshtime = new Timestamp(System.currentTimeMillis());
 		this.createtime = new Timestamp(System.currentTimeMillis());
 	}
 
