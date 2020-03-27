@@ -23,4 +23,21 @@ public class FeedHistoryDaoImpl implements FeedHistoryDao {
 
 		return jdbcUtil.queryForBean(sql, new Object[]{feedName}, FeedHistoryEntity.class);
 	}
+
+	@Override
+	public boolean insert(FeedHistoryEntity feedHistoryEntity) {
+
+		if (feedHistoryEntity ==null ||
+				feedHistoryEntity.getContent() == null||
+				feedHistoryEntity.getCreatetime() ==null){
+			return false;
+		}
+
+		String sql = "insert into feed_history(name,content, createtime) values (?,?,?)";
+
+		return jdbcUtil.update(sql, new Object[]{
+				feedHistoryEntity.getName(),
+				feedHistoryEntity.getContent(),
+				feedHistoryEntity.getCreatetime()});
+	}
 }

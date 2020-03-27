@@ -9,4 +9,6 @@ public interface FeedHistoryDao {
 	 * @return
 	 */
 	FeedHistoryEntity getLastContent(String feedName);
+
+	boolean insert(FeedHistoryEntity feedHistoryEntity);
 }

@@ -53,7 +53,7 @@ public class Item {
 
 		stringBuilder.append("<item>")
 				.append("<title> <![CDATA[").append(this.title).append("]]> </title>")
-				.append("<link> <![CDATA[").append(this.link).append("]]> </link>")
+				.append("<link>").append(this.link).append("</link>")
 				.append("<description> <![CDATA[").append(this.content).append("]]> </description>")
 				.append("</item>");
 

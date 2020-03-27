@@ -3,6 +3,7 @@ package cn.edu.nju.candleflame.rss_spider.schedule;
 import cn.edu.nju.candleflame.rss_spider.aop.RunningLog;
 import cn.edu.nju.candleflame.rss_spider.config.CustomAnalysisMapper;
 import cn.edu.nju.candleflame.rss_spider.config.Mapper;
+import cn.edu.nju.candleflame.rss_spider.dao.FeedHistoryDao;
 import cn.edu.nju.candleflame.rss_spider.dao.FeedRefreshDao;
 import cn.edu.nju.candleflame.rss_spider.entity.FeedRefreshEntity;
 import cn.edu.nju.candleflame.rss_spider.feed.FeedChanger;
@@ -13,7 +14,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -26,13 +26,15 @@ public class FlushFeedThread implements Runnable{
 	private final FeedRefreshDao feedRefreshDao;
 	private final CustomAnalysisMapper customAnalysisMapper;
 	private final ExecThreadPool execThreadPool;
+	private final FeedHistoryDao feedHistoryDao;
 	private final static int MINITE = 60000;
 
-	public FlushFeedThread(FeedService feedService, FeedRefreshDao feedRefreshDao, CustomAnalysisMapper customAnalysisMapper, ExecThreadPool execThreadPool) {
+	public FlushFeedThread(FeedService feedService, FeedRefreshDao feedRefreshDao, CustomAnalysisMapper customAnalysisMapper, ExecThreadPool execThreadPool, FeedHistoryDao feedHistoryDao) {
 		this.feedService = feedService;
 		this.feedRefreshDao = feedRefreshDao;
 		this.customAnalysisMapper = customAnalysisMapper;
 		this.execThreadPool = execThreadPool;
+		this.feedHistoryDao = feedHistoryDao;
 	}
 
 
@@ -81,10 +83,10 @@ public class FlushFeedThread implements Runnable{
 						Timestamp lastFrushTime = feedFrushMap.get(feedName);
 
 						if (lastFrushTime == null){
-							execThreadPool.submit(new ExecThread(beanMap.get(feedName)));
+							execThreadPool.submit(new ExecThread(feedName, beanMap.get(feedName),feedHistoryDao));
 							feedRefreshDao.insert(new FeedRefreshEntity(feedName));
 						}else if (lastFrushTime.getTime()+minutes*MINITE<currentTime){
-							execThreadPool.submit(new ExecThread(beanMap.get(feedName)));
+							execThreadPool.submit(new ExecThread(feedName, beanMap.get(feedName),feedHistoryDao));
 							feedRefreshDao.updateFeed(feedName, new Timestamp(currentTime));
 						}
 					}
