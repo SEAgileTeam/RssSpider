@@ -48,7 +48,7 @@ public class FlushFeedThread implements Runnable{
 			while (true){
 
 				try {
-					if (proxyReady.isReady){
+//					if (proxyReady.isReady){
 
 						Long currentTime = System.currentTimeMillis();
 
@@ -94,9 +94,9 @@ public class FlushFeedThread implements Runnable{
 								feedRefreshDao.updateFeed(feedName, new Timestamp(currentTime));
 							}
 						}
-					}
+//					}
 
-					Thread.sleep(60*1000);
+//					Thread.sleep(60*1000);
 				}catch (Throwable t){
 					LOGGER.error(t.getLocalizedMessage());
 					try {

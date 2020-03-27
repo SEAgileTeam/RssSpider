@@ -20,6 +20,12 @@ custom-analysis:
     - name: hello
       analysisClass: cn.edu.nju.candleflame.rss_spider.feed.DemoChanger
       frequency: 2
+    - name: dm3game
+      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.DM3GameChanger
+      frequency: 2
+#    - name: scholar
+#      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.ScholarChanger
+#      frequency: 2
 
 jdbc:
   url: jdbc:mysql://127.0.0.1:3306/spider?useSSL=false
@@ -37,3 +43,10 @@ okhttp:
     timeout: 360000
   write:
     timeout: 360000
+
+
+async:
+  threadNamePrefix: pay-exec-
+  maxPoolSize: 20
+  corePoolSize: 10
+  queueCapacity: 1000

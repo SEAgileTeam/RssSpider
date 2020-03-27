@@ -28,7 +28,7 @@ public class RssSpiderApplication {
 	@Bean
 	public IpProxy getIpProxy(){
 		IpProxy ipProxy = new IpProxy(proxyReady);
-		ipProxy.fetchIp();
+//		ipProxy.fetchIp();
 		LOGGER.info("fetchIp end");
 		return ipProxy;
 	}

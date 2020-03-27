@@ -64,8 +64,8 @@ public class OkHttpUtil {
         Response response = null;
         long curr = System.currentTimeMillis();
         try {
-            IpProxyPair nextIp = ipProxy.getNextIp();
-            logger.info("ip:{} port:{}" , nextIp.getIp(), nextIp.getPort());
+//            IpProxyPair nextIp = ipProxy.getNextIp();
+//            logger.info("ip:{} port:{}" , nextIp.getIp(), nextIp.getPort());
             OkHttpClient okHttpClient = builder
 //                    .proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(nextIp.getIp(), nextIp.getPort())))
                     .build();
