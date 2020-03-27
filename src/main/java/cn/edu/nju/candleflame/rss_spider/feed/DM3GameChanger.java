@@ -22,7 +22,7 @@ public class DM3GameChanger implements FeedChanger {
 	public RssDocument analysis() {
 		try {
 			String base_url = "https://www.3dmgame.com/original_40_";
-			int max_page_num = Integer.parseInt(Jsoup.parse(fetchHtmlService.get(base_url, null).get()).select(".last a").get(0).attr("data-page")) + 1;
+			int max_page_num = Integer.parseInt(Jsoup.parse(fetchHtmlService.get(base_url + "1", null).get()).select(".last a").get(0).attr("data-page")) + 1;
 			ArrayList<Item> itemList = new ArrayList<>();
 			for (int i=1; i<=max_page_num; i++) {
 				itemList.addAll(fetchPage(base_url + i));
