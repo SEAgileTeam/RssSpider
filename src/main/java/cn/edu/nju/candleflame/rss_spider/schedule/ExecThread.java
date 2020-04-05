@@ -24,6 +24,10 @@ public class ExecThread implements Runnable {
 	public void run() {
 		try {
 			RssDocument document = feedChanger.analysis();
+			if (document == null){
+				LOGGER.info("feed {} runing error", feedName);
+				return;
+			}
 			FeedHistoryEntity feedHistoryEntity = new FeedHistoryEntity(feedName, document.toString());
 			boolean insert = feedHistoryDao.insert(feedHistoryEntity);
 

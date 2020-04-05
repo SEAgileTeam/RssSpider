@@ -32,12 +32,14 @@ public class TianmaoChanger implements FeedChanger {
 
         String description = "输出天猫商品需要搜索的所有商家的id和名称以及价格图片等信息";
 
-        String url = "";
+        String input = "%BB%F0%B9%F8%B5%D7%C1%CF";//火锅底料
+// 需要爬取商品信息的网站地址
+        String testHtml1 = "https://list.tmall.com/search_product.htm?q=" + input;
 
-        RssDocument rssDocument = new RssDocument(title, url, description);
+        RssDocument rssDocument = new RssDocument(title, testHtml1, description);
 // 动态模拟请求数据
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(url);
+        HttpGet httpGet = new HttpGet(testHtml1);
 // 模拟浏览器浏览（user-agent的值可以通过浏览器浏览，查看发出请求的头文件获取）
         httpGet.setHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36");
         CloseableHttpResponse response = null;
@@ -80,7 +82,7 @@ public class TianmaoChanger implements FeedChanger {
                     String imgUrl = item.select("div[class='productImg-wrap']").select("a").select("img").attr("data-ks-lazyload");
                     System.out.println("商品图片网址：" + imgUrl);
                     System.out.println("------------------------------------");
-                    Item movie = new Item("商品ID名称：" + id + "，" + name, "商品网址：" + goodsUrl, "商品价格：" + price + '\n' + "商品图片网址：" + imgUrl);
+                    Item movie = new Item("商品ID名称：" + id + "，" + name, "http:" + goodsUrl, "商品价格：" + price + "<br>" + "商品图片:<be><img src=\"http:" + imgUrl+"\">");
                     rssDocument.appendItem(movie);
                 }
                 // 消耗掉实体

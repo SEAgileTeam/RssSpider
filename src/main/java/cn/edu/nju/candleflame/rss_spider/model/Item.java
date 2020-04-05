@@ -19,7 +19,7 @@ public class Item {
 
 	public Item(String title, String link, String content) {
 		this.title = title;
-		this.link = link;
+		this.link = link.replaceAll("&","&amp;");
 		this.content = content;
 	}
 
@@ -54,7 +54,7 @@ public class Item {
 		stringBuilder.append("<item>")
 				.append("<title> <![CDATA[").append(this.title).append("]]> </title>")
 				.append("<link>").append(this.link).append("</link>")
-				.append("<description> <![CDATA[").append(this.content).append("]]> </description>")
+				.append("<description><![CDATA[").append(this.content).append("]]> </description>")
 				.append("</item>");
 
 		return stringBuilder.toString();
