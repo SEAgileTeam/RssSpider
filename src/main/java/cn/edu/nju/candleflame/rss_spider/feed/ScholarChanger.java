@@ -43,15 +43,14 @@ public class ScholarChanger implements FeedChanger {
 
 	ArrayList<Item> fetchPage(String url) throws Exception {
 		Document document = Jsoup.parse(fetchHtmlService.get(url, null).get());
-		Element root = document.selectFirst("#content_left");
-		Elements journals = root.select(".journal_detail");
+		Elements journals = document.select(".journal_detail");
 		ArrayList<Item> itemList = new ArrayList<>();
+		System.out.println(journals.size());
 		for (Element journal:journals) {
 			String journal_id = journal.select(".journal_img").get(0).attr("href").split("entity_id=")[1];
 			String journal_index_page = fetchHtmlService.get("http://xueshu.baidu.com/usercenter/journal/baseinfo?entity_id=" + journal_id, null).get();
 			Document journal_doc = Jsoup.parse(journal_index_page);
-			Element articles_list = journal_doc.selectFirst(".magazine_brows_list");
-			for (Element article:articles_list.select(".magazine_brows_item")) {
+			for (Element article:journal_doc.select(".magazine_brows_item")) {
 				Element article_url_link = article.select("h3 a").get(0);
 				String article_url = article_url_link.attr("href");
 				String article_title = article_url_link.text();
