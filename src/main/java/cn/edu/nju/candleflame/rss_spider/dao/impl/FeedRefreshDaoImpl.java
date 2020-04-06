@@ -20,15 +20,19 @@ public class FeedRefreshDaoImpl implements FeedRefreshDao {
 	@Override
 	public List<FeedRefreshEntity> getAllLastViewedFeed(List<String> names) {
 		String sql  = "select * from feed_refresh" +
-				" where name in (?)";
+				" where name in (";
 
 		StringBuilder builder = new StringBuilder();
+		builder.append(sql);
 		for(String name : names){
-			builder.append(name)
+			builder.append("'")
+					.append(name)
+					.append("'")
 					.append(",");
 		}
 		builder.deleteCharAt(builder.length()-1);
-		return jdbcUtil.queryForList(sql, new Object[]{builder.toString()}, FeedRefreshEntity.class);
+		builder.append(")");
+		return jdbcUtil.queryForList(builder.toString(), new Object[0], FeedRefreshEntity.class);
 	}
 
 	@Override

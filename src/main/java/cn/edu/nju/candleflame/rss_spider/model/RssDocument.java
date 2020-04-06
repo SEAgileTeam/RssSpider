@@ -24,7 +24,7 @@ public class RssDocument {
 
 	public RssDocument(String title, String url, String description) {
 		this.title = title;
-		this.url = url;
+		this.url = url.replaceAll("&","&amp;");
 		this.description = description;
 		this.contents = new ArrayList<>();
 	}

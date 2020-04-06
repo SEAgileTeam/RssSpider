@@ -39,7 +39,8 @@ public class NJUChanger implements FeedChanger {
 	ArrayList<Item> fetchPage(String url) throws Exception {
 		Elements noti_list = Jsoup.parse(fetchHtmlService.get(url, null).get()).select(".column-news-item");
 		ArrayList<Item> itemList = new ArrayList<>();
-		for (Element noti:noti_list) {
+		for (int i = 0;i<3 && i< noti_list.size();i++){
+			Element noti =  noti_list.get(i);
 			String article_link = "https://www.nju.edu.cn" + noti.attr("href");
 			String article_page = fetchHtmlService.get(article_link, null).get();
 			Document article_page_doc = Jsoup.parse(article_page);

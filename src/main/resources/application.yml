@@ -17,16 +17,30 @@ proxy:
 
 custom-analysis:
   mappers:
-    - name: hello
-      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.DemoChanger
-      frequency: 2
+#    - name: hello
+#      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.DemoChanger
+#      frequency: 2
 #    - name: dm3game
 #      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.DM3GameChanger
 #      frequency: 2
 #    - name: scholar
 #      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.ScholarChanger
 #      frequency: 2
-
+    - name: zhihu
+      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.ZhihuChanger
+      frequency: 20
+    - name: xiaozhong
+      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.XiaozhongChanger
+      frequency: 20
+#    - name: nju
+#      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.NJUChanger
+#      frequency: 2
+    - name: douban
+      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.DoubanChanger
+      frequency: 2
+    - name: tianmao
+      analysisClass: cn.edu.nju.candleflame.rss_spider.feed.TianmaoChanger
+      frequency: 20
 jdbc:
   url: jdbc:mysql://127.0.0.1:3306/spider?useSSL=false
   username: root

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -58,12 +59,19 @@ public class FlushFeedThread implements Runnable{
 						List<String> allNameList = new ArrayList<>(beanMap.keySet());
 						List<FeedRefreshEntity> allLastViewedFeed = feedRefreshDao.getAllLastViewedFeed(allNameList);
 
-						Map<String, Timestamp> feedFrushMap = allLastViewedFeed
-								.stream()
-								.collect(Collectors.toMap(
-										FeedRefreshEntity::getName,
-										FeedRefreshEntity::getFreshtime
-								));
+
+						Map<String, Timestamp> feedFrushMap = new HashMap<>();
+
+						if (allLastViewedFeed!=null && allLastViewedFeed.size()>0){
+							feedFrushMap = allLastViewedFeed
+									.stream()
+									.collect(Collectors.toMap(
+											FeedRefreshEntity::getName,
+											FeedRefreshEntity::getFreshtime,
+											(i,j)->i
+									));
+						}
+
 
 						List<Mapper> mappers = customAnalysisMapper.getMappers();
 						Map<String, Integer> feedFrequencyMap = mappers
